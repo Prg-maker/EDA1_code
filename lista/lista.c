@@ -89,8 +89,15 @@ void LinkedList_add_last_fast(LinkedList *L, int val){
 void LinkedList_print(const LinkedList *L){
     SNode*p = L->begin;
     while(p!= NULL){
-        printf("%d\n" , p->val);
+        printf("%d -> " , p->val);
         p= p->next;
+    }
+    printf("NULL\n");
+
+    if(L->end == NULL){
+        printf("L->end == NULL\n");
+    }else{
+        printf("L -> end = %d\n" , L->end->val);
     }
 }
 // remover um no de uma lista
@@ -105,19 +112,26 @@ void LinkedList_remove(LinkedList * L , int val){
             L->begin=L->begin ->next; 
             free(pos);
         }
-
+    
         else{
           SNode *prev = L->begin ;
           SNode * pos = L->begin -> next;  
 
           while(pos != NULL && pos->val != val){
             prev = pos;
+                 
             pos = pos->next;
           }
 
           if(pos != NULL){
-            prev ->next = pos->next;
 
+            prev ->next = pos->next;
+            // se o elemento a ser removido é o último no da lista
+            // caso 3;
+
+            if(pos -> next == NULL){
+                L->end = prev;
+            }
             free(pos);
           } 
 
@@ -130,12 +144,12 @@ int main(){
 
     LinkedList *list = LinkedList_create();
     LinkedList_add_first(list, 20);
+    LinkedList_add_first(list, 10);
     LinkedList_add_first(list, 20);
-    LinkedList_add_first(list, 3);
     LinkedList_print(list);
 
     printf("\n");
-    LinkedList_remove(list,20 );
+    LinkedList_remove(list,3);
     LinkedList_print(list);
 
 
